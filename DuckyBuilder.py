@@ -45,7 +45,7 @@ COMMAND_DESCRIPTIONS = {
 class DuckyBuilderApp:
     def __init__(self, root):
         self.root = root
-        root.title("DuckyBuilder v1.1")
+        root.title("DuckyBuilder v1.2")
         root.geometry("900x600")
         root.resizable(False, False)
 
@@ -228,7 +228,7 @@ class DuckyBuilderApp:
         elif ctype == "number":
             line = f"{cmd} {self.param_widget.get()}"
         elif ctype == "key_single":
-            line = f"{cmd} {self.param_widget.get()}"
+            line = self.param_widget.get()
         elif ctype == "key_combo":
             keys = [cb.get() for cb in self.combo_widgets]
             line = " ".join(keys)
