@@ -32,8 +32,8 @@ MODIFIERS = ["CTRL", "ALT", "SHIFT", "GUI"]
 COMMAND_DESCRIPTIONS = {
     "STRING": "Types out a string as a keyboard input.",
     "DELAY": "Pauses script execution for specified amount of time (ms).",
-    "DEFAULTDELAY": "Sets a delay between each command when executing.",
-    "REPEAT": "Repeats command before it a specified amount of times.",
+    "DEFAULTDELAY": "Sets a delay between each command when executing. (ms)",
+    "REPEAT": "Repeats command above it a specified amount of times.",
     "REM": "Adds a comment to your script.",
     "KEY": "Simulates a single key press.",
     "COMBO": "Simulates a combination of keypresses.",
@@ -202,7 +202,7 @@ class DuckyBuilderApp:
             row.pack(anchor="w", pady=2)
 
         def remove_combo_row():
-            if len(self.combo_widgets) <=1:
+            if len(self.combo_widgets) <=2:
                 return
             
             if self.combo_widgets:
