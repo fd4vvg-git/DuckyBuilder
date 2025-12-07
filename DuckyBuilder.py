@@ -202,6 +202,9 @@ class DuckyBuilderApp:
             row.pack(anchor="w", pady=2)
 
         def remove_combo_row():
+            if len(self.combo_widgets) <=1:
+                return
+            
             if self.combo_widgets:
                 cb = self.combo_widgets.pop()
                 cb.master.destroy()
