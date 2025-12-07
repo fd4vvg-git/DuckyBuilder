@@ -22,12 +22,22 @@ ALL_KEYS = [
     # Arrows
     "UPARROW", "DOWNARROW", "LEFTARROW", "RIGHTARROW",
     # Navigation
-    "ENTER", "TAB", "SPACE", "BACKSPACE", "DELETE", "HOME", "ESCAPE",
+    "RETURN", "TAB", "SPACE", "BACKSPACE", "DELETE", "HOME", "ESCAPE",
     # Modifiers
     "CTRL", "ALT", "SHIFT", "GUI",
 ]
 
 MODIFIERS = ["CTRL", "ALT", "SHIFT", "GUI"]
+
+COMMAND_DESCRIPTIONS = {
+    "STRING": "Types out a string as a keyboard input.",
+    "DELAY": "Pauses script execution for specified amount of time (ms).",
+    "DEFAULTDELAY": "Sets a delay between each command when executing.",
+    "REPEAT": "Repeats command before it a specified amount of times.",
+    "REM": "Adds a comment to your script.",
+    "KEY": "Simulates a single key press.",
+    "COMBO": "Simulates a combination of keypresses.",
+}
 
 
 # MAIN APP
@@ -35,7 +45,7 @@ MODIFIERS = ["CTRL", "ALT", "SHIFT", "GUI"]
 class DuckyBuilderApp:
     def __init__(self, root):
         self.root = root
-        root.title("DuckyBuilder v1.0")
+        root.title("DuckyBuilder v1.1")
         root.geometry("900x600")
         root.resizable(False, False)
 
@@ -93,15 +103,31 @@ class DuckyBuilderApp:
 
         self.dynamic_area = tk.Frame(self.middle_frame)
         self.dynamic_area.pack(fill="y")
+        
+        self.dynamic_area = tk.Frame(self.middle_frame, width=100, height=180)
+        self.dynamic_area.pack_propagate(False) 
+        self.dynamic_area.pack(fill="none", pady=10)
+
 
         self.param_widget = None
         self.combo_widgets = []
 
+        self.description_label = tk.Label(
+            self.left_frame,
+            text=COMMAND_DESCRIPTIONS[self.command_var.get()],
+            wraplength=180,
+            justify="left",
+            fg="#555",
+            width=28,
+            anchor="w"
+        )
+        self.description_label.pack(anchor="w", pady=(0, 10))
+        
         self.update_dynamic_area()
 
         # Buttons
         tk.Button(self.middle_frame, text="Add To Script", width=18,
-                  command=self.add_command).pack(pady=5)
+                  command=self.add_command).pack(pady=(10, 50))
         tk.Button(self.middle_frame, text="Copy", width=18,
           command=self.copy_to_clipboard).pack(pady=5)
         tk.Button(self.middle_frame, text="Undo", width=18,
@@ -112,6 +138,7 @@ class DuckyBuilderApp:
                   command=self.save_script).pack(pady=5)
         
         self.script_lines = []
+        
 
     # Update dynamic ui based on cmd type
 
@@ -120,6 +147,11 @@ class DuckyBuilderApp:
             w.destroy()
 
         cmd = self.command_var.get()
+        self.description_label.config(text=COMMAND_DESCRIPTIONS.get(cmd, ""))
+        
+        for w in self.dynamic_area.winfo_children():
+            w.destroy()
+        
         ctype = COMMAND_TYPES[cmd]
 
         if ctype == "text":
@@ -159,6 +191,9 @@ class DuckyBuilderApp:
         self.combo_widgets = []
 
         def add_combo_row():
+            if len(self.combo_widgets) >=5:
+                return
+            
             row = tk.Frame(self.dynamic_area)
             cb = ttk.Combobox(row, values=ALL_KEYS, state="readonly", width=10)
             cb.current(0)
