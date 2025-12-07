@@ -32,7 +32,7 @@ MODIFIERS = ["CTRL", "ALT", "SHIFT", "GUI"]
 COMMAND_DESCRIPTIONS = {
     "STRING": "Types out a string as a keyboard input.",
     "DELAY": "Pauses script execution for specified amount of time (ms).",
-    "DEFAULTDELAY": "Sets a delay between each command when executing. (ms)",
+    "DEFAULTDELAY": "Sets a delay between each command when executing (ms).",
     "REPEAT": "Repeats command above it a specified amount of times.",
     "REM": "Adds a comment to your script.",
     "KEY": "Simulates a single key press.",
